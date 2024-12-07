@@ -22,24 +22,22 @@ n_obstructions = 0
 
 for m in range(0, len(lab_map)):
     for n in range(0, len(lab_map[i])):
-        if (m == cur_i and n == cur_j) or lab_map[m][n] != '.':
+        if lab_map[m][n] != '.':
             continue
         map_copy = copy.deepcopy(lab_map)
         map_copy[m][n] = '#'
         
-        seen_places = defaultdict(int)
+        seen_places = set()
         i = cur_i
         j = cur_j
         dir_i = -1
         dir_j = 0
 
-        print(m, n)
-
         while True:
-            seen_places[(i, j)] += 1
-            if seen_places[(i, j)] >= 10:
+            if (i, j, dir_i, dir_j) in seen_places:
                 n_obstructions += 1
                 break
+            seen_places.add((i, j, dir_i, dir_j))
             if i <= 0 or i >= len(map_copy) - 1:
                 break
             if j <= 0 or j >= len(map_copy[0]) - 1:
@@ -55,4 +53,3 @@ for m in range(0, len(lab_map)):
 
 
 print(n_obstructions)
-
